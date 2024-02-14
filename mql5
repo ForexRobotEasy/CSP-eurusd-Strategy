@@ -1,0 +1,151 @@
+mql5
+//+------------------------------------------------------------------+
+//|                                              CSP eurusd Strategy |
+//|                                     Developed by Forex Robot Easy Team |
+//|                                          Website: forexroboteasy.com |
+//+------------------------------------------------------------------+
+
+#property strict
+
+// Define input parameters
+input double StopLoss = 50; // Stop loss in pips
+input double TakeProfit = 100; // Take profit in pips
+
+// Define global variables
+bool isLongTradeOpen = false;
+bool isShortTradeOpen = false;
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Add indicators and initialize variables here
+    
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator deinitialization function                       |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+    // Clean up and release resources here
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                              |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Check for candlestick patterns and generate signals
+    if (CheckCandlestickPattern())
+    {
+        if (!isLongTradeOpen && !isShortTradeOpen)
+        {
+            // Place entry order
+            if (IsBullishPattern())
+            {
+                OpenLongTrade();
+            }
+            else if (IsBearishPattern())
+            {
+                OpenShortTrade();
+            }
+        }
+        else if (isLongTradeOpen && IsBearishPattern())
+        {
+            // Close long trade and open short trade
+            CloseLongTrade();
+            OpenShortTrade();
+        }
+        else if (isShortTradeOpen && IsBullishPattern())
+        {
+            // Close short trade and open long trade
+            CloseShortTrade();
+            OpenLongTrade();
+        }
+    }
+    
+    // Check for exit signals
+    if (isLongTradeOpen && IsExitSignal())
+    {
+        CloseLongTrade();
+    }
+    else if (isShortTradeOpen && IsExitSignal())
+    {
+        CloseShortTrade();
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Check for specific candlestick patterns                           |
+//+------------------------------------------------------------------+
+bool CheckCandlestickPattern()
+{
+    // Implement candlestick pattern detection logic here
+    return true; // Replace with actual detection logic
+}
+
+//+------------------------------------------------------------------+
+//| Check if current candlestick pattern is bullish                   |
+//+------------------------------------------------------------------+
+bool IsBullishPattern()
+{
+    // Implement bullish pattern detection logic here
+    return true; // Replace with actual detection logic
+}
+
+//+------------------------------------------------------------------+
+//| Check if current candlestick pattern is bearish                   |
+//+------------------------------------------------------------------+
+bool IsBearishPattern()
+{
+    // Implement bearish pattern detection logic here
+    return true; // Replace with actual detection logic
+}
+
+//+------------------------------------------------------------------+
+//| Open a long trade                                                |
+//+------------------------------------------------------------------+
+void OpenLongTrade()
+{
+    // Implement long trade execution logic here
+    isLongTradeOpen = true;
+}
+
+//+------------------------------------------------------------------+
+//| Close a long trade                                               |
+//+------------------------------------------------------------------+
+void CloseLongTrade()
+{
+    // Implement long trade closing logic here
+    isLongTradeOpen = false;
+}
+
+//+------------------------------------------------------------------+
+//| Open a short trade                                               |
+//+------------------------------------------------------------------+
+void OpenShortTrade()
+{
+    // Implement short trade execution logic here
+    isShortTradeOpen = true;
+}
+
+//+------------------------------------------------------------------+
+//| Close a short trade                                              |
+//+------------------------------------------------------------------+
+void CloseShortTrade()
+{
+    // Implement short trade closing logic here
+    isShortTradeOpen = false;
+}
+
+//+------------------------------------------------------------------+
+//| Check for exit signal                                            |
+//+------------------------------------------------------------------+
+bool IsExitSignal()
+{
+    // Implement exit signal detection logic here
+    return false; // Replace with actual detection logic
+}
